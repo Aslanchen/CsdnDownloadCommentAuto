@@ -253,5 +253,11 @@ namespace Csdn评论
                 thread.Abort();
             }
         }
+
+        private void bt_about_Click(object sender, RoutedEventArgs e)
+        {
+            About about = new About();
+            about.ShowDialog();
+        }
     }
 }

@@ -11,6 +11,7 @@
             <TextBlock  Text="当前状态：" VerticalAlignment="Center" />
             <TextBlock Name="tv_state" Text="未登录" VerticalAlignment="Center"/>
             <Button Content="开始"  Name="bt_start" Width="70" Margin="20,0,0,0" Click="bt_start_Click"  />
+            <Button Content="关于"  Name="bt_about" Width="70" Margin="20,0,0,0" Click="bt_about_Click" />
         </StackPanel>
         <WebBrowser Grid.Row="1" Name="wb_show" LoadCompleted="wb_show_LoadCompleted" Navigating="wb_show_Navigating" />
     </Grid>
