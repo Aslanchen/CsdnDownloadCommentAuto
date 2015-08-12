@@ -145,6 +145,7 @@ namespace Csdn评论
                     isStart = false;
                     Dispatcher.BeginInvoke(DispatcherPriority.Normal, (ThreadStart)delegate
                     {
+                        tv_state.Text = "未登录";
                         bt_start.Content = "开始";
                     });
                     return;
