@@ -175,6 +175,8 @@ namespace Csdn评论
                     Dispatcher.BeginInvoke(DispatcherPriority.Normal, (ThreadStart)delegate
                     {
                         tv_state.Text = "评论结束";
+                        bt_start.Content = "开始";
+                        isStart = false;
                     });
                     return;
                 }
