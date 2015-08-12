@@ -142,8 +142,11 @@ namespace Csdn评论
                 if (content.Contains("请您先登录"))
                 {
                     MessageBox.Show("请先登录", "提示");
-                    bt_start.Content = "开始";
                     isStart = false;
+                    Dispatcher.BeginInvoke(DispatcherPriority.Normal, (ThreadStart)delegate
+                    {
+                        bt_start.Content = "开始";
+                    });
                     return;
                 }
 
