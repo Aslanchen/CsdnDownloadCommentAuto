@@ -50,7 +50,7 @@ namespace Csdn评论
         private CookieContainer GetCookieContainer()
         {
             CookieContainer container = new CookieContainer();
-            mshtml.HTMLDocument ss = (mshtml.HTMLDocument)wb_show.Document;
+            mshtml.IHTMLDocument2 ss = (mshtml.IHTMLDocument2)wb_show.Document;
             foreach (string cookie in ss.cookie.Split(';'))
             {
                 string name = cookie.Split('=')[0];
