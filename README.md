@@ -13,5 +13,3 @@ Csdn下载资源自动评论系统
 
 * 作者: 陈恒飞
 * 邮件(122560007@qq.com)
-* QQ: 122560007
-* 新浪微博: [@Aslan_theOne](http://weibo.com/alsnahcne)
