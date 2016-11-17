@@ -3,16 +3,19 @@
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         Title="CSDN下载资源自动评论程序" Height="500" Width="700" WindowStartupLocation="CenterScreen" Loaded="Window_Loaded" Closed="Window_Closed">
     <Grid>
-        <Grid.RowDefinitions>
-            <RowDefinition Height="Auto" />
-            <RowDefinition Height="1*" />
-        </Grid.RowDefinitions>
-        <StackPanel Orientation="Horizontal" VerticalAlignment="Center" HorizontalAlignment="Center" Margin="10">
-            <TextBlock  Text="当前状态：" VerticalAlignment="Center" />
-            <TextBlock Name="tv_state" Text="未登录" VerticalAlignment="Center"/>
-            <Button Content="开始"  Name="bt_start" Width="70" Margin="20,0,0,0" Click="bt_start_Click"  />
-            <Button Content="关于"  Name="bt_about" Width="70" Margin="20,0,0,0" Click="bt_about_Click" />
-        </StackPanel>
-        <WebBrowser Grid.Row="1" Name="wb_show" LoadCompleted="wb_show_LoadCompleted" Navigating="wb_show_Navigating" />
+        <TabControl x:Name="tabControl" >
+            <TabItem Header="网页登陆">
+                <WebBrowser Name="wb_show" LoadCompleted="wb_show_LoadCompleted" Navigating="wb_show_Navigating" />
+            </TabItem>
+            <TabItem Header="可用评论列表">
+                <StackPanel Orientation="Vertical" >
+                    <StackPanel Orientation="Horizontal" VerticalAlignment="Center" HorizontalAlignment="Center" Margin="10">
+                        <Button Content="开始"  Name="bt_start" Width="70" Margin="20,0,0,0" Click="bt_start_Click"  />
+                        <Button Content="关于"  Name="bt_about" Width="70" Margin="20,0,0,0" Click="bt_about_Click" />
+                    </StackPanel>
+                    <TextBox x:Name="tb_history" />
+                </StackPanel>
+            </TabItem>
+        </TabControl>
     </Grid>
 </Window>

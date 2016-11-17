@@ -43,21 +43,35 @@ namespace Csdn评论
 
         private void Window_Loaded(object sender, RoutedEventArgs e)
         {
-            wb_show.Navigate("http://passport.csdn.net/account/login?from=http%3A%2F%2Fdownload.csdn.net%2Fmy%2Fdownloads");
+            tabControl.SelectedIndex = 0;
+            //wb_show.Navigate("http://passport.csdn.net/account/login?from=http%3A%2F%2Fdownload.csdn.net%2Fmy%2Fdownloads");
+            wb_show.Navigate("http://download.csdn.net/my/downloads/1");
         }
 
         //获取WebBrowser的Cookie
         private CookieContainer GetCookieContainer()
         {
-            CookieContainer container = new CookieContainer();
             mshtml.IHTMLDocument2 ss = (mshtml.IHTMLDocument2)wb_show.Document;
+            if (ss == null)
+            {
+                return null;
+            }
+
+            CookieContainer container = new CookieContainer();
             foreach (string cookie in ss.cookie.Split(';'))
             {
-                string name = cookie.Split('=')[0];
-                string value = cookie.Substring(name.Length + 1);
-                string path = "/";
+                string[] values = cookie.Split('=');
+                string name = values[0].Trim();
+                string value = values[1].Trim();
                 string domain = ".csdn.net";
-                container.Add(new Cookie(name.Trim(), value.Trim(), path, domain));
+                try
+                {
+                    container.Add(new Cookie(name, value, "/", domain));
+                }
+                catch (Exception ex)
+                {
+                    continue;
+                }
             }
             return container;
         }
@@ -84,45 +98,7 @@ namespace Csdn评论
                     thread.Abort();
                 }
             }
-
         }
-
-
-        //private void Login(String name, String pass)
-        //{
-        //    Dispatcher.BeginInvoke(DispatcherPriority.Normal, (ThreadStart)delegate
-        //    {
-        //        tv_state.Text = "登录ing";
-        //    });
-
-        //    String url = "https://passport.csdn.net/account/login";
-        //    String content = MyWebHttp.getInstance().DownUTF8WebSite(url);
-
-        //    //获取its
-        //    String regex = "name=\"lt\" value=\"(.{40})\"";
-        //    Regex r = new Regex(regex, RegexOptions.IgnoreCase | RegexOptions.Multiline);
-        //    Match m = r.Match(content);
-        //    String it = m.Groups[1].ToString();
-
-        //    //获取execution
-        //    regex = "name=\"execution\" value=\"(.{4,5})\"";
-        //    r = new Regex(regex, RegexOptions.IgnoreCase | RegexOptions.Multiline);
-        //    m = r.Match(content);
-        //    String execution = m.Groups[1].ToString();
-
-        //    url = "http://passport.csdn.net/account/login";
-        //    Dictionary<string, string> parameters = new Dictionary<string, string>();
-        //    parameters.Add("username", "122560007@163.com");
-        //    parameters.Add("password", "Csdn52800");
-        //    parameters.Add("lt", it);
-        //    parameters.Add("execution", execution);
-        //    parameters.Add("_eventId", "submit");
-
-        //    string host = "";
-        //    content = MyWebHttp.getInstance().DownUTF8WebSite(url, parameters, host, "");
-
-        //    DownList();
-        //}
 
         //读取评论数据
         private void DownList()
@@ -133,40 +109,64 @@ namespace Csdn评论
                 String curPageUrl = "http://download.csdn.net/my/downloads/" + curPage;
                 Dispatcher.BeginInvoke(DispatcherPriority.Normal, (ThreadStart)delegate
                 {
-                    tv_state.Text = "获取列表第" + curPage + "页";
+                    AddHistory("获取列表第" + curPage + "页");
                     wb_show.Navigate(curPageUrl);
                 });
 
                 String content = MyWebHttp.getInstance().DownUTF8WebSite(curPageUrl);
-
                 if (content.Contains("请您先登录"))
                 {
                     MessageBox.Show("请先登录", "提示");
                     isStart = false;
                     Dispatcher.BeginInvoke(DispatcherPriority.Normal, (ThreadStart)delegate
                     {
-                        tv_state.Text = "未登录";
                         bt_start.Content = "开始";
                     });
                     return;
                 }
 
-                //获取数据
-                string pattern = "<a href=\"/detail/.{2,30}/(\\d{2,15})#comment\" class=\"btn-comment\">立即评价，通过可返分</a>";
-                MatchCollection matches = Regex.Matches(content, pattern);
-                foreach (Match match in matches)
-                {
-                    String sourceid = match.Groups[1].Value;
-                    Dispatcher.BeginInvoke(DispatcherPriority.Normal, (ThreadStart)delegate
-                    {
-                        tv_state.Text = "正在评论sourceid：" + sourceid;
-                    });
+                //开始解析HTML
+                HtmlAgilityPack.HtmlDocument hd = new HtmlAgilityPack.HtmlDocument();
+                hd.LoadHtml(content);
+                HtmlAgilityPack.HtmlNode nodes = hd.DocumentNode.SelectSingleNode("//*[@id='wrap']/div[2]/div[2]/div[2]/dl");
 
-                    while (WriteDiscuss(sourceid, curPage) == false)
+                int index = 0;
+                foreach (HtmlAgilityPack.HtmlNode value in nodes.ChildNodes)
+                {
+                    index++;
+                    HtmlAgilityPack.HtmlNode nodebtns = value.SelectSingleNode(String.Format("//dt[{0}]/div[2]/span", index));
+                    if (nodebtns != null)
                     {
-                        Thread.Sleep(5 * 1000);
+                        string btns = nodebtns.InnerHtml;
+                        if (string.Equals("已评价", btns) == true)
+                        {
+                            continue;
+                        }
                     }
 
+                    HtmlAgilityPack.HtmlNode nodeSourceid = value.SelectSingleNode(String.Format("//dt[{0}]/h3/a", index));
+                    if (nodeSourceid == null)
+                    {
+                        continue;
+                    }
+
+                    string href = nodeSourceid.Attributes["href"].Value;
+
+                    string pattern = "/(\\d{2,15})";
+                    MatchCollection matches = Regex.Matches(href, pattern);
+                    foreach (Match match in matches)
+                    {
+                        String sourceid = match.Groups[1].Value;
+                        this.Dispatcher.BeginInvoke(new Action(() =>
+                        {
+                            AddHistory("正在评论sourceid：" + sourceid);
+                        }));
+
+                        while (WriteDiscuss(sourceid, curPage) == false)
+                        {
+                            Thread.Sleep(5 * 1000);
+                        }
+                    }
                 }
                 curPage++;
 
@@ -174,7 +174,7 @@ namespace Csdn评论
                 {
                     Dispatcher.BeginInvoke(DispatcherPriority.Normal, (ThreadStart)delegate
                     {
-                        tv_state.Text = "评论结束";
+                        AddHistory("评论结束");
                         bt_start.Content = "开始";
                         isStart = false;
                     });
@@ -214,16 +214,27 @@ namespace Csdn评论
                 isOk = true;
                 Dispatcher.BeginInvoke(DispatcherPriority.Normal, (ThreadStart)delegate
                 {
-                    tv_state.Text = "CSDN评论间隔时间，等待";
+                    AddHistory("评论成功，等待CSDN评论间隔时间65秒");
                     wb_show.Refresh();
                 });
-                Thread.Sleep(1000 * 60);
+                Thread.Sleep(1000 * 65);
             }
             else
             {
+                Dispatcher.BeginInvoke(DispatcherPriority.Normal, (ThreadStart)delegate
+                {
+                    AddHistory("评论成功失败" + content);
+                    wb_show.Refresh();
+                });
                 isOk = false;
             }
             return isOk;
+        }
+
+
+        private void AddHistory(String value)
+        {
+            tb_history.AppendText(value + System.Environment.NewLine);
         }
 
         private void wb_show_LoadCompleted(object sender, NavigationEventArgs e)
