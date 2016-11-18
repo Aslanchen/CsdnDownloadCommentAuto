@@ -1,13 +1,12 @@
 ﻿<Window x:Class="Csdn评论.About"
         xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-        Title="About" Height="300" Width="300"  WindowStartupLocation="CenterScreen" >
+        Title="About" Height="300" Width="300"  WindowStartupLocation="CenterScreen" Icon="dis.ico" >
     <Grid>
         <StackPanel VerticalAlignment="Center" HorizontalAlignment="Center">
             <TextBlock Text="在使用中有任何问题，欢迎反馈给我，可以用以下联系方式跟我交流" Padding="10" TextWrapping="WrapWithOverflow" />
             <TextBlock Text="作者: 陈恒飞" HorizontalAlignment="Center"/>
             <TextBlock Text="邮件(122560007@qq.com)" HorizontalAlignment="Center"/>
-            <TextBlock Text="QQ: 122560007" HorizontalAlignment="Center"/>
         </StackPanel>
     </Grid>
 </Window>

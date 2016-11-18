@@ -1,7 +1,9 @@
 E:\github\CsdnDownloadCommentAuto\Csdn评论\bin\Debug\Csdn评论.exe.config
 E:\github\CsdnDownloadCommentAuto\Csdn评论\bin\Debug\Csdn评论.exe
 E:\github\CsdnDownloadCommentAuto\Csdn评论\bin\Debug\Csdn评论.pdb
-E:\github\CsdnDownloadCommentAuto\Csdn评论\obj\x86\Debug\Csdn评论.csprojResolveAssemblyReference.cache
+E:\github\CsdnDownloadCommentAuto\Csdn评论\bin\Debug\HtmlAgilityPack.dll
+E:\github\CsdnDownloadCommentAuto\Csdn评论\bin\Debug\HtmlAgilityPack.pdb
+E:\github\CsdnDownloadCommentAuto\Csdn评论\bin\Debug\HtmlAgilityPack.xml
 E:\github\CsdnDownloadCommentAuto\Csdn评论\obj\x86\Debug\About.baml
 E:\github\CsdnDownloadCommentAuto\Csdn评论\obj\x86\Debug\MainWindow.baml
 E:\github\CsdnDownloadCommentAuto\Csdn评论\obj\x86\Debug\About.g.cs
@@ -13,6 +15,6 @@ E:\github\CsdnDownloadCommentAuto\Csdn评论\obj\x86\Debug\Csdn评论.Properties
 E:\github\CsdnDownloadCommentAuto\Csdn评论\obj\x86\Debug\Csdn评论.csproj.GenerateResource.Cache
 E:\github\CsdnDownloadCommentAuto\Csdn评论\obj\x86\Debug\Csdn评论.exe
 E:\github\CsdnDownloadCommentAuto\Csdn评论\obj\x86\Debug\Csdn评论.pdb
-E:\github\CsdnDownloadCommentAuto\Csdn评论\bin\Debug\HtmlAgilityPack.dll
-E:\github\CsdnDownloadCommentAuto\Csdn评论\bin\Debug\HtmlAgilityPack.pdb
-E:\github\CsdnDownloadCommentAuto\Csdn评论\bin\Debug\HtmlAgilityPack.xml
+E:\github\CsdnDownloadCommentAuto\Csdn评论\bin\Debug\Newtonsoft.Json.dll
+E:\github\CsdnDownloadCommentAuto\Csdn评论\bin\Debug\Newtonsoft.Json.xml
+E:\github\CsdnDownloadCommentAuto\Csdn评论\obj\x86\Debug\Csdn评论.csprojResolveAssemblyReference.cache

@@ -1,7 +1,7 @@
 ﻿<Window x:Class="Csdn评论.MainWindow"
         xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-        Title="CSDN下载资源自动评论程序" Height="500" Width="700" WindowStartupLocation="CenterScreen" Loaded="Window_Loaded" Closed="Window_Closed">
+        Title="CSDN下载资源自动评论程序" Height="500" Width="700" WindowStartupLocation="CenterScreen" Loaded="Window_Loaded" Closed="Window_Closed" Icon="dis.ico">
     <Grid>
         <TabControl x:Name="tabControl" >
             <TabItem Header="网页登陆">
@@ -12,8 +12,13 @@
                     <StackPanel Orientation="Horizontal" VerticalAlignment="Center" HorizontalAlignment="Center" Margin="10">
                         <Button Content="开始"  Name="bt_start" Width="70" Margin="20,0,0,0" Click="bt_start_Click"  />
                         <Button Content="关于"  Name="bt_about" Width="70" Margin="20,0,0,0" Click="bt_about_Click" />
+                        <TextBlock Margin="20,0,0,0" Text="验证码：" VerticalAlignment="Center"/>
+                        <TextBox x:Name="tb_check" Width="70" TextChanged="tb_check_TextChanged" VerticalAlignment="Center"/>
+                        <Image x:Name="image"/>
+                        <Button Content="确认"  Name="bt_check" Width="70" Margin="5,0,0,0" Click="bt_check_Click" />
+                        <TextBlock x:Name="tb_check_state" VerticalAlignment="Center"/>
                     </StackPanel>
-                    <TextBox x:Name="tb_history" />
+                    <TextBox x:Name="tb_history" VerticalScrollBarVisibility="Auto"  TextWrapping="Wrap" AcceptsReturn="True"/>
                 </StackPanel>
             </TabItem>
         </TabControl>

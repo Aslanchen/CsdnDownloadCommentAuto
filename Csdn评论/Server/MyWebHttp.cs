@@ -5,6 +5,7 @@ using System.Text;
 using System.Net;
 using System.IO;
 using System.Web;
+using System.Windows.Media.Imaging;
 
 namespace Csdn评论.Server
 {
@@ -140,6 +141,40 @@ namespace Csdn评论.Server
                 }
             }
             return content;
+        }
+
+        public BitmapImage GetImage(string url)
+        {
+            string content = string.Empty;
+            HttpWebRequest request = (HttpWebRequest)WebRequest.Create(url);
+            if (gCookieContainer != null)
+            {
+                request.CookieContainer = gCookieContainer;
+            }
+            request.AllowWriteStreamBuffering = false;
+            request.ContentType = "image/png";
+            request.UserAgent = "Mozilla/5.0 (Windows NT 6.1; WOW64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/27.0.1453.116 Safari/537.36";
+            request.KeepAlive = true;
+            request.Method = WebRequestMethods.Http.Get;
+            using (HttpWebResponse response = (HttpWebResponse)request.GetResponse())
+            {
+                Stream stream = response.GetResponseStream();
+                if (stream.CanRead)
+                {
+                    Byte[] buffer = new Byte[response.ContentLength];
+                    stream.Read(buffer, 0, buffer.Length);
+
+                    BitmapImage bi = new BitmapImage();
+                    bi.BeginInit();
+                    bi.CacheOption = BitmapCacheOption.OnLoad;
+                    bi.StreamSource = new MemoryStream(buffer);
+                    bi.EndInit();
+
+                    stream.Close();
+                    return bi;
+                }
+            }
+            return null;
         }
 
         private string getWebSiteGet(string url, string unicode, String ip)
