@@ -25,7 +25,6 @@ namespace Csdn评论
         private int startPage = 1;
         private int curPage = 0;
         private int endPage = 999;
-        private int curStringIndex = 0;
         private int lastDiscusPage = 0;
         private Thread thread = null;
         private bool isStart = false;
@@ -207,6 +206,9 @@ namespace Csdn评论
             StringBuilder sb = new StringBuilder();
             sb.Append("http://download.csdn.net/index.php/comment/post_comment?");
             sb.Append("&sourceid=" + sourceid);
+
+            Random rd = new Random();
+            int curStringIndex = rd.Next(0, stringGood.Length);
             sb.Append("&content=" + stringGood[curStringIndex]);
             if (string.IsNullOrEmpty(txt_validcode) == false)
             {
@@ -216,11 +218,6 @@ namespace Csdn评论
             sb.Append("&rating=5");
             sb.Append("&t=" + epoch + "286");
 
-            curStringIndex++;
-            if (curStringIndex >= stringGood.Length)
-            {
-                curStringIndex = 0;
-            }
             String url = sb.ToString();
             String content = httptool.Get(url);
 
