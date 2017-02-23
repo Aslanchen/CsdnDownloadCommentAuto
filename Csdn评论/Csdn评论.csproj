@@ -75,7 +75,7 @@
       <DependentUpon>About.xaml</DependentUpon>
     </Compile>
     <Compile Include="Model\DisModel.cs" />
-    <Compile Include="Server\MyWebHttp.cs" />
+    <Compile Include="Server\HttpTool.cs" />
     <Page Include="About.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>

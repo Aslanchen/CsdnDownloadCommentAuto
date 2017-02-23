@@ -35,6 +35,7 @@ namespace Csdn评论
         "真的很不错。很有用，好好学学","资源太详细了！！！谢谢楼主分享好东西！！！","可以，不错，谢谢了。过来学习下","很好，非常感谢，值得学习","收获颇丰，学到了许多啊",
         "不错，很实用。 学习，谢谢分享！","很好，努力学习中","正好用得到，谢谢","多谢！很有用。学习中。","确实对自己有些用，借鉴一下！！","好东西，你值得拥有",
         "正在学习中，资源不错","很有用啊，太感谢了","真是一个好东西，有参考价值的","很好，不错！值得学一学！","很好的资源啊，呵呵，多谢分享","这个资源不错，非常楼主感谢，学习了。"};
+        private HttpTool httptool = new HttpTool();
 
         public MainWindow()
         {
@@ -81,7 +82,7 @@ namespace Csdn评论
             if (isStart == false)
             {
                 CookieContainer myCookieContainer = GetCookieContainer();
-                MyWebHttp.getInstance().setCookie(myCookieContainer);
+                httptool.cookieContainer = myCookieContainer;
 
                 bt_start.Content = "结束";
                 isStart = true;
@@ -116,7 +117,7 @@ namespace Csdn评论
                 String content = null;
                 try
                 {
-                    content = MyWebHttp.getInstance().DownUTF8WebSite(curPageUrl);
+                    content = httptool.Get(curPageUrl);
                 }
                 catch (Exception ex)
                 {
@@ -221,7 +222,7 @@ namespace Csdn评论
                 curStringIndex = 0;
             }
             String url = sb.ToString();
-            String content = MyWebHttp.getInstance().DownUTF8WebSite(url);
+            String content = httptool.Get(url);
 
             if (string.IsNullOrEmpty(txt_validcode) == false)
             {
@@ -289,7 +290,7 @@ namespace Csdn评论
                     AddHistory("评论失败-" + model.ToString());
                     //获取验证码
                     string urlCheck = "http://download.csdn.net/index.php/rest/tools/validcode/comment_validate/10.1187602692602725";
-                    image.Source = MyWebHttp.getInstance().GetImage(urlCheck);
+                    image.Source = httptool.GetImage(urlCheck);
                 });
 
                 isPause = true;
@@ -378,7 +379,7 @@ namespace Csdn评论
             string content = null;
             try
             {
-                content = MyWebHttp.getInstance().DownUTF8WebSite(urlcheck);
+                content = httptool.Get(urlcheck);
             }
             catch (Exception ex)
             {
@@ -404,7 +405,7 @@ namespace Csdn评论
                     string urlCheck = "http://download.csdn.net/index.php/rest/tools/validcode/comment_validate/10.1187602692602725";
                     try
                     {
-                        image.Source = MyWebHttp.getInstance().GetImage(urlCheck);
+                        image.Source = httptool.GetImage(urlCheck);
                     }
                     catch (Exception ex)
                     {
